@@ -1,10 +1,22 @@
 const express = require("express");
-const userRoutes = require("./API/users/routes");
+
 const db = require("./db/models");
+const cors = require("cors");
+
+//routes
+const tripsRoutes = require("./API/trips/routes");
+const userRoutes = require("./API/users/routes");
 
 const app = express();
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use(tripsRoutes);
 app.use(userRoutes);
+
 
 const run = async () => {
   try {
