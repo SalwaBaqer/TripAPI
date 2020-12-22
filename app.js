@@ -1,11 +1,15 @@
+/* Requires */
 const express = require("express");
 
 const db = require("./db/models");
 const cors = require("cors");
+const passport = require("passport");
+// Passport Strategies
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
-//routes
 const tripsRoutes = require("./API/trips/routes");
 const userRoutes = require("./API/users/routes");
+/* Requires */
 
 const app = express();
 
@@ -13,10 +17,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Passport Setup
+app.use(passport.initialize());
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
 // Routes
 app.use(tripsRoutes);
 app.use(userRoutes);
-
 
 const run = async () => {
   try {
