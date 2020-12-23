@@ -12,11 +12,13 @@ exports.signup = async (req, res, next) => {
   const saltRounds = 10;
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    // REVIEW: remove console log
     console.log("exports.signup -> hashedPassword", hashedPassword);
     req.body.password = hashedPassword;
 
     const newUser = await User.create(req.body);
 
+    // REVIEW: copy paste ashkara.. check your payload
     const payload = {
       id: newUser.id,
       username: newUser.username,
