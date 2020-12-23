@@ -16,7 +16,10 @@ exports.tripsList = async (req, res) => {
 //add trip
 exports.addtrip = async (req, res) => {
   try {
+    req.body.userId = req.user.id;
     const newTrip = await Trip.create(req.body);
+
+    newTrip.userId = req.user.id;
     res.status(201).json(newTrip);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -27,12 +30,16 @@ exports.addtrip = async (req, res) => {
 exports.updatetrip = async (req, res, next) => {
   const { tripId } = req.params;
   try {
-    const foundTrip = await Trip.findByPk(tripId);
-    if (foundTrip) {
-      await foundTrip.update(req.body);
-      res.status(201).json(foundTrip);
+    if (req.user.id === req.body.userId) {
+      const foundTrip = await Trip.findByPk(tripId);
+      if (foundTrip) {
+        await foundTrip.update(req.body);
+        res.status(201).json(foundTrip);
+      } else {
+        res.status(404).json({ message: "Trip not found" });
+      }
     } else {
-      res.status(404).json({ message: "Trip not found" });
+      res.status(500).json({ message: "Aunthozrized" });
     }
   } catch (error) {
     next(error);
