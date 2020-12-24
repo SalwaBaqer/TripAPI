@@ -6,23 +6,25 @@ const { tripsList, addtrip, updatetrip, tripDelete } = require("./controllers");
 //passport
 const passport = require("passport");
 
+//upload images
+// const upload = require("../../middleware/multer");
+
 const router = express.Router();
 
-//get
-router.get("/trips", tripsList);
-
+//list
 router.get("/", tripsList);
 
-//Only user can add and update gotta get back once sign in works
+//add trip
 router.post("/", passport.authenticate("jwt", { session: false }), addtrip);
 
+//update trip
 router.put(
   "/:tripId",
   passport.authenticate("jwt", { session: false }),
   updatetrip
 );
 
-//delete
+//delete trip
 router.delete("/:tripId", tripDelete);
 
 module.exports = router;
