@@ -1,6 +1,8 @@
 {
   "development": {
+
     "username": "user",
+
 
     "password": null,
     "database": "trip_db",

@@ -1,3 +1,7 @@
+
+const express = require('express')
+const { tripsList, tripDelete } = require('./controllers')
+
 const express = require("express");
 //controllers
 const { tripsList, addtrip, updatetrip } = require("./controllers");
@@ -5,7 +9,12 @@ const { tripsList, addtrip, updatetrip } = require("./controllers");
 //passport
 const passport = require("passport");
 
-const router = express.Router();
+
+const router = express.Router()
+
+
+//get
+router.get('/trips', tripsList)
 
 router.get("/", tripsList);
 
@@ -18,4 +27,8 @@ router.put(
   updatetrip
 );
 
-module.exports = router;
+
+//delete
+router.delete('/:tripId', tripDelete)
+
+module.exports = router
