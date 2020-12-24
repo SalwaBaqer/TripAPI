@@ -7,7 +7,7 @@ const { tripsList, addtrip, updatetrip, tripDelete } = require("./controllers");
 const passport = require("passport");
 
 //upload images
-// const upload = require("../../middleware/multer");
+const upload = require("../../middleware/multer");
 
 const router = express.Router();
 
@@ -15,12 +15,18 @@ const router = express.Router();
 router.get("/", tripsList);
 
 //add trip
-router.post("/", passport.authenticate("jwt", { session: false }), addtrip);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  addtrip
+);
 
 //update trip
 router.put(
   "/:tripId",
   passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
   updatetrip
 );
 
