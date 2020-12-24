@@ -1,3 +1,4 @@
+
 'use strict'
 
 const fs = require('fs')
@@ -10,6 +11,7 @@ const db = {}
 const User = require('./User')
 const Trip = require('./Trip')
 
+
 let sequelize
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config)
@@ -19,12 +21,15 @@ if (config.use_env_variable) {
     config.username,
     config.password,
     config
+
   )
+
 }
 
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
+
       file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
     )
   })
@@ -35,6 +40,7 @@ fs.readdirSync(__dirname)
     )
     db[model.name] = model
   })
+
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
@@ -49,4 +55,6 @@ db.Sequelize = Sequelize
 db.User.hasMany(db.Trip)
 db.Trip.belongsTo(db.User)
 
+
 module.exports = db
+
