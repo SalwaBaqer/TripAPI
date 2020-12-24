@@ -1,8 +1,12 @@
-const express = require("express");
-const { tripsList } = require("./controllers");
+const express = require('express')
+const { tripsList, tripDelete } = require('./controllers')
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/trips", tripsList);
+//get
+router.get('/trips', tripsList)
 
-module.exports = router;
+//delete
+router.delete('/:tripId', tripDelete)
+
+module.exports = router
