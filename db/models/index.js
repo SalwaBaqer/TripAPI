@@ -52,4 +52,14 @@ db.User.hasMany(db.Trip, {
 db.Trip.belongsTo(db.User, {
   foreignKey: { fieldName: "userId" },
 });
+
+// A profile must have one user only
+db.Profile.hasOne(db.User, {
+  foreignKey: "profileId",
+  allowNull: false,
+});
+db.User.belongsTo(db.Profile, {
+  foreignKey: "profileId",
+});
+
 module.exports = db;
