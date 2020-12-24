@@ -16,6 +16,7 @@ exports.tripsList = async (req, res) => {
 //add trip
 exports.addtrip = async (req, res) => {
   try {
+    // REVIEW: Read your code again.. what's weird about it?
     req.body.userId = req.user.id;
     const newTrip = await Trip.create(req.body);
 
@@ -31,6 +32,7 @@ exports.updatetrip = async (req, res, next) => {
   const { tripId } = req.params;
   try {
     if (req.user.id === req.body.userId) {
+      // REVIEW: Why not use a route param to deal with finding a trip?
       const foundTrip = await Trip.findByPk(tripId);
       if (foundTrip) {
         await foundTrip.update(req.body);
@@ -39,6 +41,7 @@ exports.updatetrip = async (req, res, next) => {
         res.status(404).json({ message: "Trip not found" });
       }
     } else {
+      // REVIEW: Status code and message inconsistent
       res.status(500).json({ message: "Aunthozrized" });
     }
   } catch (error) {

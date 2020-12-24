@@ -17,6 +17,8 @@ exports.signup = async (req, res, next) => {
 
     const newUser = await User.create(req.body);
 
+    // REVIEW: The payload should be the same in both signin and signup.
+    //Plus it should be consistent with the model.
     const payload = {
       id: newUser.id,
       username: newUser.username,
