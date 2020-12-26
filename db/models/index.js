@@ -55,6 +55,19 @@ db.Sequelize = Sequelize
 db.User.hasMany(db.Trip)
 db.Trip.belongsTo(db.User)
 
+//trip belongs to one user only
+db.Trip.belongsTo(db.User, {
+  foreignKey: { fieldName: "userId" },
+});
 
-module.exports = db
+// A profile must have one user only
+db.Profile.hasOne(db.User, {
+  foreignKey: "profileId",
+  allowNull: false,
+});
+db.User.belongsTo(db.Profile, {
+  foreignKey: "profileId",
+});
+
+module.exports = db;
 
