@@ -43,13 +43,6 @@ exports.addtrip = async (req, res) => {
 //update trip
 exports.updatetrip = async (req, res, next) => {
   try {
-    console.log(
-      "req.user.id ",
-      req.user.id,
-      "req.body.userId",
-      req.body.userId
-    );
-
     if (req.user.id === +req.body.userId) {
       const foundTrip = await Trip.findByPk(req.params.tripId);
       //trip exist
