@@ -1,7 +1,6 @@
 {
   "development": {
-    "username": "rahaf",
-
+    "username": "user",
     "password": null,
     "database": "trip_db",
     "host": "127.0.0.1",
