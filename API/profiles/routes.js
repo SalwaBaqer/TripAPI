@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const profileEdit = require("./controllers");
+// Controllers
+const { profileEdit } = require("./controllers");
+// Upload Images
+const upload = require("../../middleware/multer");
 
 // Profile Edit
-router.put("/profile/:profileid", profileEdit);
+router.put("/:profileId", upload.single("image"), profileEdit);
 
 module.exports = router;
