@@ -7,7 +7,6 @@ const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../config/keys");
 const { User } = require("../../db/models");
 const { Trip } = require("../../db/models");
 const { Profile } = require("../../db/models");
-
 /* Requires */
 
 exports.signup = async (req, res, next) => {
@@ -38,6 +37,8 @@ exports.signup = async (req, res, next) => {
       "🚀 ~ file: controllers.js ~ line 37 ~ exports.signup= ~ payload",
       payload
     );
+    };
+
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
     res.status(201).json({ token });
   } catch (error) {
@@ -47,7 +48,9 @@ exports.signup = async (req, res, next) => {
 
 exports.signin = (req, res) => {
   const { user } = req;
+
   // fetch profile here
+
   const payload = {
     id: user.id,
     username: user.username,
@@ -56,6 +59,7 @@ exports.signin = (req, res) => {
     // bio: user.profileId.bio,
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
+
   console.log("🚀 ~ file: controllers.js ~ line 57 ~ payload", payload);
 
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
