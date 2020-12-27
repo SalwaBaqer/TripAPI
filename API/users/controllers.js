@@ -6,6 +6,7 @@ const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../config/keys");
 // Database
 const { User } = require("../../db/models");
 const { Trip } = require("../../db/models");
+const { Profile } = require("../../db/models");
 /* Requires */
 
 exports.signup = async (req, res, next) => {
@@ -17,14 +18,25 @@ exports.signup = async (req, res, next) => {
     req.body.password = hashedPassword;
 
     const newUser = await User.create(req.body);
+    // creating profile after creating the user
+    const newProfile = await Profile.create({ userId: newUser.id });
+    newUser.update({ profileId: newProfile.id });
 
     const payload = {
       id: newUser.id,
       username: newUser.username,
       email: newUser.email,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
+      // Laila told me to match both payloads & to match them with the user model
+      // firstName: newUser.firstName,
+      // lastName: newUser.lastName,
       exp: Date.now() + JWT_EXPIRATION_MS,
+      image: newProfile.image,
+      bio: newProfile.bio,
+    };
+    console.log(
+      "🚀 ~ file: controllers.js ~ line 37 ~ exports.signup= ~ payload",
+      payload
+    );
     };
 
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
@@ -36,11 +48,19 @@ exports.signup = async (req, res, next) => {
 
 exports.signin = (req, res) => {
   const { user } = req;
+
+  // fetch profile here
+
   const payload = {
     id: user.id,
     username: user.username,
+    email: user.email,
+    // image: user.profileId.image,
+    // bio: user.profileId.bio,
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
+
+  console.log("🚀 ~ file: controllers.js ~ line 57 ~ payload", payload);
 
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
   res.json({ token });

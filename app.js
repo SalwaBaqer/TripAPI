@@ -13,6 +13,7 @@ const { localStrategy, jwtStrategy } = require("./middleware/passport");
 //routes
 const tripsRoutes = require("./API/trips/routes");
 const userRoutes = require("./API/users/routes");
+const profileRoutes = require("./API/profiles/routes");
 
 //path
 const path = require("path");
@@ -22,7 +23,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+// I FOUND THIS WHILE MERGING AND DID NOT WANT TO RISK IT AND DELETE 
 const mediaPath = path.join(__dirname, "media");
+
 
 // Passport Setup
 app.use(passport.initialize());
@@ -30,10 +33,10 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 // Routes
-
 app.use("/trips", tripsRoutes);
 app.use("/media", express.static(mediaPath));
 app.use(userRoutes);
+app.use("/profiles", profileRoutes);
 
 //path not found
 app.use((req, res) => {
