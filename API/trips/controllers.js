@@ -22,8 +22,8 @@ exports.tripsList = async (req, res) => {
 exports.tripDelete = async (req, res) => {
   const { tripId } = req.params
   try {
-    if (req.user.id === +req.body.userId) {
-      const foundTrip = await Trip.findByPk(tripId)
+    const foundTrip = await Trip.findByPk(tripId)
+    if (req.user.id === foundTrip.userId) {
       if (foundTrip) {
         await foundTrip.destroy()
         res.status(204).end()
@@ -39,8 +39,10 @@ exports.addtrip = async (req, res) => {
     if (req.file) {
       req.body.image = `http://${req.get('host')}/media/${req.file.filename}`
     }
-    req.body.UserId = req.user.id
+    req.body.userId = req.user.id
     const newTrip = await Trip.create(req.body)
+    newTrip.dataValues.user = { username: req.user.username }
+    console.log(newTrip)
     res.status(201).json(newTrip)
   } catch (error) {
     res.status(500).json({ message: error.message })
