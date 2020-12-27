@@ -1,4 +1,3 @@
-
 'use strict'
 
 const fs = require('fs')
@@ -11,7 +10,6 @@ const db = {}
 const User = require('./User')
 const Trip = require('./Trip')
 
-
 let sequelize
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config)
@@ -21,15 +19,12 @@ if (config.use_env_variable) {
     config.username,
     config.password,
     config
-
   )
-
 }
 
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
-
       file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
     )
   })
@@ -41,7 +36,6 @@ fs.readdirSync(__dirname)
     db[model.name] = model
   })
 
-
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db)
@@ -52,22 +46,25 @@ db.sequelize = sequelize
 db.Sequelize = Sequelize
 
 //Relations
-db.User.hasMany(db.Trip)
-db.Trip.belongsTo(db.User)
+db.User.hasMany(db.Trip, {
+  foreignKey: { fieldName: 'userId', allowNull: false },
+  as: 'trips',
+})
+// db.Trip.belongsTo(db.User, { as: 'user' })
 
 //trip belongs to one user only
 db.Trip.belongsTo(db.User, {
-  foreignKey: { fieldName: "userId" },
-});
+  foreignKey: { fieldName: 'userId' },
+  as: 'user',
+})
 
 // A profile must have one user only
 db.Profile.hasOne(db.User, {
-  foreignKey: "profileId",
+  foreignKey: 'profileId',
   allowNull: false,
-});
+})
 db.User.belongsTo(db.Profile, {
-  foreignKey: "profileId",
-});
+  foreignKey: 'profileId',
+})
 
-module.exports = db;
-
+module.exports = db
