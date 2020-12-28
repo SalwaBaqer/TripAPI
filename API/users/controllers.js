@@ -26,17 +26,9 @@ exports.signup = async (req, res, next) => {
       id: newUser.id,
       username: newUser.username,
       email: newUser.email,
-      // Laila told me to match both payloads & to match them with the user model
-      // firstName: newUser.firstName,
-      // lastName: newUser.lastName,
       exp: Date.now() + JWT_EXPIRATION_MS,
       image: newProfile.image,
       bio: newProfile.bio,
-    };
-    console.log(
-      "🚀 ~ file: controllers.js ~ line 37 ~ exports.signup= ~ payload",
-      payload
-    );
     };
 
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);

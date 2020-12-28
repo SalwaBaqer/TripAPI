@@ -4,8 +4,15 @@ const router = express.Router();
 const { profileEdit } = require("./controllers");
 // Upload Images
 const upload = require("../../middleware/multer");
+//passport
+const passport = require("passport");
 
 // Profile Edit
-router.put("/:profileId", upload.single("image"), profileEdit);
+router.put(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  profileEdit
+);
 
 module.exports = router;
