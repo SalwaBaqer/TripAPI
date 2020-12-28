@@ -38,17 +38,17 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.signin = (req, res) => {
+exports.signin = async (req, res) => {
   const { user } = req;
 
-  // fetch profile here
+  const foundProfile = await Profile.findByPk(req.user.profileId);
 
   const payload = {
     id: user.id,
     username: user.username,
     email: user.email,
-    // image: user.profileId.image,
-    // bio: user.profileId.bio,
+    image: foundProfile.image,
+    bio: foundProfile.bio,
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
 
