@@ -1,4 +1,19 @@
-const { Profile } = require("../../db/models");
+const { Profile, User } = require("../../db/models");
+
+// User Profile Fetch Controller
+exports.profileFetch = async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findByPk(userId);
+    const userProfile = await Profile.findOne({
+      where: { id: user.profileId },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
+    res.json(userProfile);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Profile Edit Controller
 exports.profileEdit = async (req, res, next) => {

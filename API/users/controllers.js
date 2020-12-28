@@ -52,8 +52,6 @@ exports.signin = async (req, res) => {
     exp: Date.now() + parseInt(JWT_EXPIRATION_MS),
   };
 
-  console.log("🚀 ~ file: controllers.js ~ line 57 ~ payload", payload);
-
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
   res.json({ token });
 };
@@ -77,6 +75,7 @@ exports.userList = async (req, res) => {
   }
 };
 
+// we moved it to profileFetch in profile controller so we don't need it here
 //list one user
 exports.userFetch = async (req, res) => {
   const { userId } = req.params;
