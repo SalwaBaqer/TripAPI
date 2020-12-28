@@ -37,7 +37,6 @@ exports.signup = async (req, res, next) => {
       "🚀 ~ file: controllers.js ~ line 37 ~ exports.signup= ~ payload",
       payload
     );
-    };
 
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
     res.status(201).json({ token });
