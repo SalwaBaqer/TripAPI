@@ -23,9 +23,8 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-// I FOUND THIS WHILE MERGING AND DID NOT WANT TO RISK IT AND DELETE 
+// I FOUND THIS WHILE MERGING AND DID NOT WANT TO RISK IT AND DELETE
 const mediaPath = path.join(__dirname, "media");
-
 
 // Passport Setup
 app.use(passport.initialize());
@@ -55,8 +54,8 @@ const run = async () => {
     // await db.sequelize.sync({ force: true });
     console.log("Connection to the database successful!");
 
-    await app.listen(8000, () => {
-      console.log("The application is running on localhost:8000");
+    await app.listen(8002, () => {
+      console.log("The application is running on localhost:8002");
     });
   } catch (error) {
     console.error("Error connecting to the database: ", error);
