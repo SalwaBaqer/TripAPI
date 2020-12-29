@@ -9,6 +9,7 @@ const config = require(__dirname + '/../config/config.json')[env]
 const db = {}
 const User = require('./User')
 const Trip = require('./Trip')
+const List = require('./List')
 
 let sequelize
 if (config.use_env_variable) {
@@ -50,7 +51,6 @@ db.User.hasMany(db.Trip, {
   foreignKey: { fieldName: 'userId', allowNull: false },
   as: 'trips',
 })
-// db.Trip.belongsTo(db.User, { as: 'user' })
 
 //trip belongs to one user only
 db.Trip.belongsTo(db.User, {
@@ -66,5 +66,13 @@ db.Profile.hasOne(db.User, {
 db.User.belongsTo(db.Profile, {
   foreignKey: 'profileId',
 })
+
+//many to many between lists and users
+db.Trip.belongsToMany(db.List, { through: 'Trip_Lists' })
+db.List.belongsToMany(db.Trip, { through: 'Trip_Lists' })
+
+//one to many between user and lists
+db.User.hasMany(db.List)
+db.List.belongsTo(db.User)
 
 module.exports = db
